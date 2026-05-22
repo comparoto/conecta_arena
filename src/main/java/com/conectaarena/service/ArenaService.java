@@ -161,4 +161,13 @@ public class ArenaService {
                 .filter(s -> s.getTexto() != null && s.getTexto().contains(marcador))
                 .collect(Collectors.toList());
     }
+    @Transactional
+    public void excluirEventoDoSistema(int eventoId) {
+        Optional<Evento> eventoOpt = eventoRepository.findById(eventoId);
+        if (eventoOpt.isEmpty()) {
+            throw new RuntimeException("O evento informado já foi removido ou não existe.");
+        }
+
+        eventoRepository.deleteById(eventoId);
+    }
 }

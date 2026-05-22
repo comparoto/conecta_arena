@@ -22,7 +22,7 @@
                 <div class="card-body">
                     <span class="card-category">Mural</span>
                     <h3 class="detail-title" th:text="${sugestoes.size()}">0</h3>
-                    <p class="event-info">Sugestões Recebidas no Banco</p>
+                    <p class="event-info">Sugestões Recebidas</p>
                 </div>
             </div>
 
@@ -30,14 +30,14 @@
                 <div class="card-body">
                     <span class="card-category">Status</span>
                     <h3 class="detail-title">Ativo</h3>
-                    <p class="event-info">Conexão JPA Operacional</p>
+                    <p class="event-info">Módulo Administrativo</p>
                 </div>
             </div>
         </div>
 
         <div class="purchase-confirm-box">
             <h3 class="card-title">Controle Operacional</h3>
-            <p class="event-info">Utilize o menu superior do cabeçalho para gerenciar os eventos ativos, aprovar novos lotes de inscrições ou auditar o fluxo transacional da Arena.</p>
+            <p class="event-info">Utilize o menu superior do cabeçalho para visualizar, gerenciar ou excluir os eventos ativos na Arena.</p>
         </div>
     </div>
 
@@ -47,9 +47,8 @@
             <p class="event-info">Mensagens processadas em tempo real:</p>
 
             <ul>
-                <li th:each="sugestao : ${sugestoes}">
+                <li th:each="sugestao : ${sugestoes}" class="dashboard-feedback-item">
                     <p class="label-bold" th:text="${sugestao.texto}"></p>
-                    <span class="event-info" th:text="${sugestao.dataCriacao}"></span>
                 </li>
             </ul>
 
@@ -66,5 +65,4 @@
 </footer>
 
 </body>
-</html>
 </html>

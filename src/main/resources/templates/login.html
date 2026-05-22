@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- Navbar Fixa -->
 <nav class="navbar">
     <div class="container">
         <a href="#" class="logo-text">
@@ -22,12 +21,10 @@
     </div>
 </nav>
 
-<!-- Estrutura Centralizada usando a caixa de sugestão para envolver o form -->
 <div class="container">
     <div class="suggestion-box">
         <h2 class="card-title-center">Acesse sua Conta</h2>
 
-        <!-- Feedbacks do Controller -->
         <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
         <div th:if="${param.sucesso}" class="alert alert-success">Cadastro realizado com sucesso! Faça login.</div>
 
@@ -45,9 +42,17 @@
             <button type="submit" class="btn cadastro-link">Entrar</button>
         </form>
 
+        <p class="event-info mt-15">
+            <a href="#" class="forgot-password-link">Esqueci minha senha</a>
+        </p>
+
         <p class="event-info">
             Não tem uma conta? <a href="/cadastro" class="nav-link">Cadastre-se aqui</a>
         </p>
+
+        <div class="view-more-container mt-20">
+            <a th:href="@{/}" class="btn-back">← Voltar para a Home</a>
+        </div>
     </div>
 </div>
 

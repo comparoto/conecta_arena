@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head}">
+    <title>Termos de Uso - ConectaArena</title>
+</head>
+<body>
+<div class="container mt-20">
+    <div class="suggestion-box legal-container">
+        <h2 class="card-title legal-title">Termos de Uso</h2>
+        <p class="event-info legal-subtitle">Última atualização: Maio de 2026</p>
+
+        <div class="dashboard-content legal-content-box">
+            <h3 class="legal-topic-title">1. Aceitação dos Termos</h3>
+            <p class="event-info legal-text">Ao criar uma conta e utilizar a plataforma ConectaArena, você concorda explicitamente em cumprir as regras operacionais estabelecidas para a reserva, compra de ingressos e agendamentos nas dependências da nossa arena esportiva corporativa.</p>
+
+            <h3 class="legal-topic-title">2. Cadastro e Segurança da Conta</h3>
+            <p class="event-info legal-text">O usuário é responsável pela veracidade dos dados informados no momento do cadastro (usuários comuns ou organizadores). Contas que utilizarem dados fraudulentos estarão sujeitas à suspensão imediata da conta pelas credenciais do administrador.</p>
+
+            <h3 class="legal-topic-title">3. Aquisição de Ingressos e Cancelamentos</h3>
+            <p class="event-info legal-text">Os ingressos emitidos geram um código único rastreável (QR Code) associado à sua conta. A alteração de lotações ou exclusão de eventos cadastrados no sistema são de total responsabilidade dos organizadores autorizados.</p>
+        </div>
+
+        <div class="legal-actions-container">
+            <a th:href="@{/cadastro}" class="btn btn-purchase btn-legal-back">Voltar para o Cadastro</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 ConectaArena. Todos os direitos reservados.</p>
+</footer>
+
+</body>
+</html>

@@ -10,7 +10,10 @@
 <div class="container">
     <div class="suggestion-box">
         <h2 class="card-title">Eventos Cadastrados</h2>
-        <p class="event-info">Lista completa de todos os eventos ativos e encerrados no banco de dados.</p>
+        <p class="event-info">Lista completa de todos os eventos ativos e encerrados.</p>
+
+        <div th:if="${sucesso}" class="alert alert-success mt-20" th:text="${sucesso}"></div>
+        <div th:if="${erro}" class="alert alert-danger mt-20" th:text="${erro}"></div>
 
         <div class="table-container dash-table-scroll">
             <table class="dash-table admin-table-view">
@@ -21,6 +24,7 @@
                     <th>Data</th>
                     <th>Vagas</th>
                     <th>Preço</th>
+                    <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,6 +34,16 @@
                     <td th:text="${#temporals.format(evento.data, 'dd/MM/yyyy HH:mm')}">Data</td>
                     <td th:text="${evento.ingressosVendidos} + ' / ' + ${evento.ingressosDisponiveis}">0 / 40000</td>
                     <td th:text="'R$ ' + ${#numbers.formatDecimal(evento.preco, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                    <td>
+                        <div class="admin-actions-group">
+                            <a th:href="@{/admin/eventos/editar/{id}(id=${evento.id})}" class="btn btn-admin-edit">Editar</a>
+
+                            <form th:action="@{/admin/eventos/excluir}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este evento permanentemente?');" class="form-inline-table">
+                                <input type="hidden" name="eventoId" th:value="${evento.id}">
+                                <button type="submit" class="btn-danger btn-danger-action">Excluir</button>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>

@@ -215,8 +215,6 @@ button {
     text-align: center;
 }
 
-
-/*Layout do Dashboard do Usuário */
 .user-dashboard-layout {
     display: grid;
     grid-template-columns: 250px 1fr;
@@ -224,7 +222,7 @@ button {
     margin-top: 30px;
     margin-bottom: 50px;
 }
-/* Customizações para a tabela de gestão do Organizador/Admin */
+
 .dash-table-scroll {
     margin-top: 20px;
     overflow-x: auto;
@@ -351,7 +349,6 @@ button {
     font-weight: bold;
 }
 
-/* Sugestões e Perigo */
 .suggestion-list {
     display: flex;
     flex-direction: column;
@@ -555,7 +552,7 @@ button {
     border: 3px solid #FF8C00;
     border-radius: 20px;
     padding: 25px;
-    max-width: 500px; /* Alinhamento para as telas de Auth */
+    max-width: 500px;
     margin: 40px auto;
 }
 
@@ -698,4 +695,130 @@ footer {
     font-size: 0.9rem;
     border-top: 1px solid #eee;
     background-color: white;
+}
+
+.lgpd-consent-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.lgpd-consent-container input[type="checkbox"] {
+    margin-top: 4px;
+    cursor: pointer;
+}
+
+.lgpd-consent-label {
+    font-size: 0.9em;
+    color: #4b5563;
+    cursor: pointer;
+    user-select: none;
+}
+
+.lgpd-consent-label a {
+    color: #000;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.field-validation-error {
+    color: #e63946;
+    font-size: 0.85em;
+    font-weight: bold;
+    display: block;
+    margin-top: 5px;
+}
+
+.forgot-password-link {
+    color: #4b5563;
+    font-size: 0.9em;
+    text-decoration: underline;
+}
+
+.mt-15 {
+    margin-top: 15px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.admin-actions-group {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-admin-edit {
+    background-color: #222;
+    color: white;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+}
+
+.form-inline-table {
+    margin: 0;
+}
+
+.btn-danger-action {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dashboard-feedback-item {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.legal-container {
+    max-width: 900px;
+    text-align: left;
+    margin-bottom: 50px;
+}
+
+.legal-title {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.legal-subtitle {
+    margin-bottom: 25px;
+}
+
+.legal-content-box {
+    box-shadow: none !important;
+    border-color: #eee !important;
+    background: #fafafa !important;
+}
+
+.legal-topic-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.legal-topic-title:first-of-type {
+    margin-top: 15px;
+}
+
+.legal-text {
+    margin-top: 5px;
+}
+
+.legal-actions-container {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.btn-legal-back {
+    max-width: 250px;
 }

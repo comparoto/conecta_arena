@@ -4,16 +4,13 @@ import com.conectaarena.model.Usuario;
 import com.conectaarena.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
-
-//Adicionar autenticação de senha.
-//Adicionar autenticação de telefone.
 
 @Controller
 public class AutenticacaoController {
@@ -30,8 +27,7 @@ public class AutenticacaoController {
     }
 
     @PostMapping("/login")
-    public String efetuarLogin(@RequestParam String email, @RequestParam String senha, HttpSession session, Model model) {
-
+    public String efectuarLogin(@RequestParam String email, @RequestParam String senha, HttpSession session, Model model) {
         Optional<Usuario> usuarioOpt = usuarioService.autenticar(email, senha);
 
         if (usuarioOpt.isPresent()){
@@ -56,40 +52,98 @@ public class AutenticacaoController {
     }
 
     @PostMapping("/cadastro")
-    public String efetuarCadastro(
-            @Valid @ModelAttribute("usuario") Usuario novoUsuario,
-            BindingResult result,
-            @RequestParam(required = false) String chaveAdmin,
+    public String efectuarCadastro(
+            jakarta.servlet.http.HttpServletRequest request,
             Model model) {
         try {
-            if (result.hasErrors()) {
-                return "cadastro";
-            }
-            if(novoUsuario.getDataNascimento() != null){
-                if(novoUsuario.getDataNascimento().isBefore(LocalDate.now().minusYears(100))){
-                    model.addAttribute("erro", "Data de nascimento inválida. A idade não pode ser superior a 100 anos.");
-                    return "cadastro";
-                }
-            }
-            if ("ADMIN".equalsIgnoreCase(novoUsuario.getPerfil())) {
+            String perfil = request.getParameter("perfil");
+            String email = request.getParameter("email");
+            String senha = request.getParameter("senha");
+            String aceitouTermosStr = request.getParameter("aceitouTermos");
+            boolean aceitouTermos = "on".equals(aceitouTermosStr) || "true".equals(aceitouTermosStr);
+
+            Usuario novoUsuario = new Usuario();
+            novoUsuario.setPerfil(perfil);
+            novoUsuario.setEmail(email);
+            novoUsuario.setSenha(senha);
+            novoUsuario.setId(0);
+
+            if ("ADMIN".equalsIgnoreCase(perfil)) {
+                String chaveAdmin = request.getParameter("chaveAdmin");
                 if (!"ARENA2026".equals(chaveAdmin)) {
                     throw new IllegalArgumentException("Chave de acesso corporativo inválida!");
                 }
-            } else {
-                novoUsuario.setId(0);
+                novoUsuario.setNome("Organizador Arena");
+                novoUsuario.setCpf("00000000000");
+                novoUsuario.setDataNascimento(LocalDate.now().minusDays(1));
+                novoUsuario.setAceitouTermos(true);
+            }
+            else {
+                String nome = request.getParameter("nome");
+                String cpf = request.getParameter("cpf");
+                String dataNascStr = request.getParameter("dataNascimento");
+                String telefone = request.getParameter("telefone");
+
+                if (nome == null || nome.isBlank()) throw new IllegalArgumentException("Nome é obrigatório!");
+                if (cpf == null || cpf.isBlank()) throw new IllegalArgumentException("CPF é obrigatório!");
+                if (dataNascStr == null || dataNascStr.isBlank()) throw new IllegalArgumentException("Data de nascimento é obrigatória!");
+                if (senha == null || senha.isBlank()) throw new IllegalArgumentException("Senha é obrigatória!");
+
+                LocalDate dataNascimento = LocalDate.parse(dataNascStr);
+                if (dataNascimento.isBefore(LocalDate.now().minusYears(100))) {
+                    throw new IllegalArgumentException("Data de nascimento inválida. A idade não pode ser superior a 100 anos.");
+                }
+
+                novoUsuario.setNome(nome);
+                novoUsuario.setCpf(cpf);
+                novoUsuario.setDataNascimento(dataNascimento);
+                novoUsuario.setTelefone(telefone);
+                novoUsuario.setAceitouTermos(aceitouTermos);
             }
 
+            if (Boolean.TRUE.equals(novoUsuario.getAceitouTermos())) {
+                novoUsuario.setDataHoraConsentimento(LocalDateTime.now());
+            }
             usuarioService.cadastrarUsuario(novoUsuario);
             return "redirect:/login?sucesso=true";
+
         } catch (IllegalArgumentException e) {
             model.addAttribute("erro", e.getMessage());
+            model.addAttribute("usuario", new Usuario());
+            return "cadastro";
+        } catch (Exception e) {
+            model.addAttribute("erro", "Erro ao processar o cadastro: " + e.getMessage());
+            model.addAttribute("usuario", new Usuario());
             return "cadastro";
         }
     }
 
+    @GetMapping("/termos")
+    public String exibirTermosDeUso() {
+        return "termos";
+    }
+
+    @GetMapping("/privacidade")
+    public String exibirPoliticaPrivacidade() {
+        return "privacidade";
+    }
+
     @GetMapping("/logout")
-    public String efetuarLogout(HttpSession session) {
+    public String efectuarLogout(HttpSession session) {
         session.invalidate();
+        return "redirect:/login";
+    }
+
+    @PostMapping("/perfil/excluir")
+    public String solicitarExclusaoDados(HttpSession session, Model model) {
+        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuarioLogado != null) {
+            usuarioService.anonimizarUsuario(usuarioLogado.getId());
+            session.invalidate();
+            return "redirect:/login?excluido=true";
+        }
+
         return "redirect:/login";
     }
 }

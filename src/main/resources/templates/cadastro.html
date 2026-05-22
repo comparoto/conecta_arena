@@ -6,7 +6,7 @@
 <body>
 <nav class="navbar">
     <div class="container">
-        <a href="#" class="logo-text">
+        <a th:href="@{#}" class="logo-text">
             <div class="brand-text">CONECTA<span>ARENA</span></div>
         </a>
         <ul class="navbar-nav">
@@ -40,10 +40,10 @@
 
             <div class="form-control-group">
                 <label class="label-bold">SENHA</label>
-                <input type="password" th:field="*{senha}" required class="form-control" placeholder="Crie uma senha forte">
-
-                <span th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" style="color: #e63946; font-size: 0.85em; font-weight: bold; display: block; margin-top: 5px;"></span>
+                <input type="password" th:field="*{senha}" required class="form-control" placeholder="Crie uma senha de 8 caracteres">
+                <span th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" class="field-validation-error"></span>
             </div>
+
             <div id="camposUsuarioComum">
                 <div class="form-control-group">
                     <label class="label-bold">NOME COMPLETO</label>
@@ -52,32 +52,20 @@
 
                 <div class="form-control-group">
                     <label class="label-bold">CPF</label>
-                    <input type="text" name="cpf" id="inputCpf" required class="form-control" placeholder="000.000.000-00" maxlength="14">
-
-                    <span th:if="${#fields.hasErrors('cpf')}"
-                          th:errors="*{cpf}"
-                          style="color: #e63946; font-size: 0.85em; font-weight: bold; display: block; margin-top: 5px;">
-                    </span>
+                    <input type="text" th:field="*{cpf}" id="inputCpf" required class="form-control" placeholder="000.000.000-00" maxlength="11">
+                    <span th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="field-validation-error"></span>
                 </div>
 
                 <div class="form-control-group">
                     <label class="label-bold">DATA DE NASCIMENTO</label>
                     <input type="date" th:field="*{dataNascimento}" id="inputDataNasc" required class="form-control">
-
-                    <span th:if="${#fields.hasErrors('dataNascimento')}"
-                          th:errors="*{dataNascimento}"
-                          style="color: #e63946; font-size: 0.85em; font-weight: bold; display: block; margin-top: 5px;">
-                    </span>
+                    <span th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}" class="field-validation-error"></span>
                 </div>
 
                 <div class="form-control-group">
                     <label class="label-bold">TELEFONE / WHATSAPP</label>
-                    <input type="tel" th:field="*{telefone}" class="form-control" placeholder="(81) 99999-0000">
-
-                    <span th:if="${#fields.hasErrors('telefone')}"
-                          th:errors="*{telefone}"
-                          style="color: #e63946; font-size: 0.85em; font-weight: bold; display: block; margin-top: 5px;">
-                    </span>
+                    <input type="tel" th:field="*{telefone}" class="form-control" placeholder="81999990000" maxlength="11">
+                    <span th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}" class="field-validation-error"></span>
                 </div>
             </div>
 
@@ -89,6 +77,14 @@
                 </div>
             </div>
 
+            <div id="blocoConsentimento" class="lgpd-consent-container">
+                <input type="checkbox" th:field="*{aceitouTermos}" id="checkboxTermos">
+                <label for="checkboxTermos" class="lgpd-consent-label">
+                    Estou ciente e aceito os <a th:href="@{/termos}" target="_blank">Termos de Uso</a>
+                    e a <a th:href="@{/privacidade}" target="_blank">Política de Privacidade</a>
+                    do ConectaArena para tratamento dos meus dados pessoais em conformidade com a LGPD.
+                </label>
+            </div>
             <button type="submit" class="btn btn-outline-dark">FINALIZAR CADASTRO</button>
         </form>
 
@@ -111,39 +107,39 @@
         const perfilSelecionado = document.getElementById("seletorPerfil").value;
         const blocoUsuario = document.getElementById("camposUsuarioComum");
         const blocoAdmin = document.getElementById("camposAdministrador");
+        const blocoConsentimento = document.getElementById("blocoConsentimento");
 
         const inputNome = document.getElementById("inputNome");
         const inputCpf = document.getElementById("inputCpf");
         const inputDataNasc = document.getElementById("inputDataNasc");
         const inputChaveAdmin = document.getElementById("inputChaveAdmin");
+        const checkboxTermos = document.getElementById("checkboxTermos");
 
-        // Verifica se todos os elementos foram mapeados corretamente para evitar erros no console
-        if (!blocoUsuario || !blocoAdmin) return;
+        if (!blocoUsuario || !blocoAdmin || !blocoConsentimento) return;
 
         if (perfilSelecionado === "ADMIN") {
-            // Esconde Usuário e Mostra Admin usando as classes do CSS
             blocoUsuario.classList.add("hidden-fields");
             blocoAdmin.classList.remove("hidden-fields");
+            blocoConsentimento.style.display = "none";
 
-            // Ajusta obrigatoriedade dos campos
             inputNome.removeAttribute("required");
             inputCpf.removeAttribute("required");
             inputDataNasc.removeAttribute("required");
+            checkboxTermos.removeAttribute("required");
             inputChaveAdmin.setAttribute("required", "required");
         } else {
-            // Mostra Usuário e Esconde Admin usando as classes do CSS
             blocoUsuario.classList.remove("hidden-fields");
             blocoAdmin.classList.add("hidden-fields");
+            blocoConsentimento.style.display = "flex";
 
-            // Restaura obrigatoriedade dos campos
             inputNome.setAttribute("required", "required");
             inputCpf.setAttribute("required", "required");
             inputDataNasc.setAttribute("required", "required");
+            checkboxTermos.setAttribute("required", "required");
             inputChaveAdmin.removeAttribute("required");
         }
     }
 
-    // O "DOMContentLoaded" garante que o script só vai rodar depois do HTML estar todo carregado
     document.addEventListener("DOMContentLoaded", alternarCamposCadastro);
 </script>
 </body>
