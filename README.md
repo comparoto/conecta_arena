@@ -40,7 +40,7 @@ O projeto Conecta Arena foi desenvolvido com o objetivo de criar uma aplicação
 [issues](https://github.com/comparoto/conecta_arena/issues)
 
 #### Relatório Evolutivo
-- [Relatório](https://docs.google.com/document/d/1HQrfCskFHfdq33UlZEy46uq7AfxOLlP3F9qMNpJru8o/edit?tab=t.0)
+- [Relatório](https://docs.google.com/document/d/1HQrfCskFHfdq33UlZEy46uq7AfxOLlP3F9qMNpJru8o/edit?usp=sharing)
 
 
 ## 👩‍💻 Equipe 
