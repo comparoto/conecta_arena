@@ -3,10 +3,8 @@ package com.conectaarena.controller;
 import com.conectaarena.model.Usuario;
 import com.conectaarena.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -52,15 +50,20 @@ public class AutenticacaoController {
     }
 
     @PostMapping("/cadastro")
-    public String efectuarCadastro(
-            jakarta.servlet.http.HttpServletRequest request,
-            Model model) {
+    public String efectuarCadastro(jakarta.servlet.http.HttpServletRequest request, Model model) {
         try {
             String perfil = request.getParameter("perfil");
             String email = request.getParameter("email");
             String senha = request.getParameter("senha");
             String aceitouTermosStr = request.getParameter("aceitouTermos");
             boolean aceitouTermos = "on".equals(aceitouTermosStr) || "true".equals(aceitouTermosStr);
+
+            if (senha == null || senha.isBlank()) {
+                throw new IllegalArgumentException("Senha é obrigatória!");
+            }
+            if (senha.length() < 8) {
+                throw new IllegalArgumentException("A senha deve conter no mínimo 8 caracteres!");
+            }
 
             Usuario novoUsuario = new Usuario();
             novoUsuario.setPerfil(perfil);
@@ -87,7 +90,6 @@ public class AutenticacaoController {
                 if (nome == null || nome.isBlank()) throw new IllegalArgumentException("Nome é obrigatório!");
                 if (cpf == null || cpf.isBlank()) throw new IllegalArgumentException("CPF é obrigatório!");
                 if (dataNascStr == null || dataNascStr.isBlank()) throw new IllegalArgumentException("Data de nascimento é obrigatória!");
-                if (senha == null || senha.isBlank()) throw new IllegalArgumentException("Senha é obrigatória!");
 
                 LocalDate dataNascimento = LocalDate.parse(dataNascStr);
                 if (dataNascimento.isBefore(LocalDate.now().minusYears(100))) {
@@ -104,6 +106,7 @@ public class AutenticacaoController {
             if (Boolean.TRUE.equals(novoUsuario.getAceitouTermos())) {
                 novoUsuario.setDataHoraConsentimento(LocalDateTime.now());
             }
+
             usuarioService.cadastrarUsuario(novoUsuario);
             return "redirect:/login?sucesso=true";
 
@@ -112,6 +115,18 @@ public class AutenticacaoController {
             model.addAttribute("usuario", new Usuario());
             return "cadastro";
         } catch (Exception e) {
+            Throwable causa = e;
+            while (causa != null) {
+                if (causa instanceof jakarta.validation.ConstraintViolationException) {
+                    jakarta.validation.ConstraintViolationException cve = (jakarta.validation.ConstraintViolationException) causa;
+                    String mensagemLimpa = cve.getConstraintViolations().iterator().next().getMessage();
+                    model.addAttribute("erro", mensagemLimpa);
+                    model.addAttribute("usuario", new Usuario());
+                    return "cadastro";
+                }
+                causa = causa.getCause();
+            }
+
             model.addAttribute("erro", "Erro ao processar o cadastro: " + e.getMessage());
             model.addAttribute("usuario", new Usuario());
             return "cadastro";
