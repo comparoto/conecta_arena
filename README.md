@@ -40,7 +40,7 @@ O projeto Conecta Arena foi desenvolvido com o objetivo de criar uma aplicação
 [issues](https://github.com/comparoto/conecta_arena/issues)
 
 #### Relatório Evolutivo
-- [Relatório](https://docs.google.com/document/d/1HQrfCskFHfdq33UlZEy46uq7AfxOLlP3F9qMNpJru8o/edit?tab=t.0)
+- [Relatório](https://docs.google.com/document/d/1HQrfCskFHfdq33UlZEy46uq7AfxOLlP3F9qMNpJru8o/edit?usp=sharing)
 
 
 ## 👩‍💻 Equipe 
@@ -56,8 +56,8 @@ Montando o ambiente corretamente para execução do projeto:
 <summary>🌐 <b>1. Tecnologias Utilizadas</b></summary>
 
 * **Backend:** Java 17, Spring Boot 3.x, Spring Data JPA
-* **Banco de Dados:** H2 Database (Em memória)
-* **Frontend:** HTML5, CSS3, Thymeleaf (Motor de template dinâmico)
+* **Banco de Dados:** PostgreSQL
+* **Frontend:** HTML5, CSS3, Thymeleaf
 * **Gerenciador de Dependências:** Maven
 </details>
 
@@ -70,8 +70,11 @@ Siga os passos abaixo para montar o ambiente e rodar a aplicação localmente na
 Antes de começar, certifique-se de ter instalado em sua máquina:
 * **Java JDK 17** (ou superior)
 * **Git**
+* **PostgreSQL 16** (ou superior)
+* **pgAdmin 4** (ou ferramenta similar como DBeaver) 
 * Uma IDE de sua preferência (Recomendado: **IntelliJ IDEA** ou VS Code com extensões Java)
 
+  Após clonar, crie um banco de dados vazio chamado conecta_db no seu PostgreSQL e ajuste a propriedade spring.datasource.password no arquivo application-dev.properties com a sua senha mestre 
 ### 2. Clonar o Repositório
 Abra o seu terminal/prompt de comando e execute o comando abaixo para clonar o projeto:
 
@@ -100,19 +103,9 @@ O console deverá exibir os logs de inicialização. Quando aparecer a mensagem 
 </details>
 
 <details>
-<summary>🌐 <b>3. URLs de Acesso Local</b></summary>
+<summary>🌐 <b>3. URL de Acesso Local</b></summary>
 
-Com o sistema executando, abra o seu navegador e acesse as rotas abaixo:
+Com o sistema executando, abra o seu navegador e acesse a rota abaixo:
 
 Aplicação (Home Pública): http://localhost:8080/
-
-Console do Banco de Dados H2: http://localhost:8080/h2-console
-
-Configuração para o login do H2:
-
-JDBC URL: jdbc:h2:mem:testdb
-
-User Name: sa
-
-Password: (Deixe em branco)
 </details>
