@@ -103,9 +103,10 @@ O console deverá exibir os logs de inicialização. Quando aparecer a mensagem 
 </details>
 
 <details>
-<summary>🌐 <b>3. URL de Acesso Local</b></summary>
+<summary>🌐 <b>3. URLs de acesso</b></summary>
 
 Com o sistema executando, abra o seu navegador e acesse a rota abaixo:
 
-Aplicação (Home Pública): http://localhost:8080/
+- Aplicação (Home Pública): http://localhost:8080/
+- Deploy (Não precisa rodar a aplicação): https://conecta-arena.onrender.com
 </details>
