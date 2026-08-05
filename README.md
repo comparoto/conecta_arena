@@ -109,4 +109,5 @@ Com o sistema executando, abra o seu navegador e acesse a rota abaixo:
 
 - Aplicação (Home Pública): http://localhost:8080/
 - Deploy (Não precisa rodar a aplicação): https://conecta-arena.onrender.com
+- Observação: A plataforma foi colocada em funcionamento na AWS e expirou o limite de tempo, portanto não há um novo link de deploy no momento. :)
 </details>
